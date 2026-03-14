@@ -112,6 +112,7 @@ function initLayers() {
     const coords = (feature.geometry as any).coordinates as [number, number]
 
     const location = [p.city, p.district, p.street].filter(Boolean).join(', ') || '—'
+    const placeRow = p.place ? `<div class="popup-row"><span>Place</span><strong>${p.place}</strong></div>` : ''
     const html = `
       <div class="accident-popup">
         <div class="popup-row"><span>Date</span><strong>${p.date ?? '—'}</strong></div>
@@ -119,6 +120,7 @@ function initLayers() {
         <div class="popup-row"><span>Dead</span><strong style="color:#CC0000">${p.dead}</strong></div>
         <div class="popup-row"><span>Injured</span><strong style="color:#FF8C00">${p.injured}</strong></div>
         <div class="popup-row"><span>Location</span><strong>${location}</strong></div>
+        ${placeRow}
       </div>
     `
 

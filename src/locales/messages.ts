@@ -9,6 +9,7 @@ interface Messages {
   mapPopupDead: string
   mapPopupInjured: string
   mapPopupLocation: string
+  mapPopupPlace: string
 }
 
 export default {
@@ -23,6 +24,7 @@ export default {
     mapPopupDead: 'Dead',
     mapPopupInjured: 'Injured',
     mapPopupLocation: 'Location',
+    mapPopupPlace: 'Place',
   },
   hy: {
     menuItemAbout: 'Մեր մասին',
@@ -35,5 +37,6 @@ export default {
     mapPopupDead: 'Զոհ',
     mapPopupInjured: 'Վիրավոր',
     mapPopupLocation: 'Վայր',
+    mapPopupPlace: 'Վայր (ճշգրիտ)',
   },
 } satisfies Record<string, Messages>
