@@ -1,13 +1,10 @@
 const BASE = 'http://localhost:8000'
 
 export interface AccidentParams {
-  min_lat: number
-  max_lat: number
-  min_lon: number
-  max_lon: number
   date_from?: string
   date_to?: string
   accident_type?: string
+  only_dead?: boolean
 }
 
 export async function fetchAccidents(p: AccidentParams) {

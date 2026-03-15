@@ -1,34 +1,36 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, watch, ref } from 'vue'
-
-const props = defineProps<{ refetchTrigger?: number }>()
+import { onMounted, onUnmounted, watch } from 'vue'
+import { ref } from 'vue'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
+import Supercluster from 'supercluster'
 import { useAccidentsStore } from '@/stores/accidents'
+
+const props = defineProps<{ refetchTrigger?: number }>()
 
 const mapContainer = ref<HTMLDivElement | null>(null)
 const store = useAccidentsStore()
 let map: maplibregl.Map | null = null
-let debounceTimer: ReturnType<typeof setTimeout> | null = null
 let popup: maplibregl.Popup | null = null
+let sc: Supercluster | null = null
 
-function getBbox() {
-  if (!map) return null
-  const b = map.getBounds()
-  return {
-    min_lat: b.getSouth(),
-    max_lat: b.getNorth(),
-    min_lon: b.getWest(),
-    max_lon: b.getEast(),
-  }
+function buildCluster() {
+  if (!store.rawGeojson || !map) return
+  sc = new Supercluster({ radius: 60, maxZoom: 20 })
+  sc.load(store.rawGeojson.features)
+  updateSource()
 }
 
-function scheduleFetch() {
-  if (debounceTimer) clearTimeout(debounceTimer)
-  debounceTimer = setTimeout(() => {
-    const bbox = getBbox()
-    if (bbox) store.load(bbox)
-  }, 300)
+function updateSource() {
+  if (!sc || !map) return
+  const bounds = map.getBounds()
+  const zoom = Math.round(map.getZoom())
+  const clusters = sc.getClusters(
+    [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()],
+    zoom,
+  )
+  const src = map.getSource('accidents-src') as maplibregl.GeoJSONSource | undefined
+  src?.setData({ type: 'FeatureCollection', features: clusters })
 }
 
 function initLayers() {
@@ -44,14 +46,14 @@ function initLayers() {
     id: 'clusters',
     type: 'circle',
     source: 'accidents-src',
-    filter: ['==', ['get', 'is_cluster'], true],
+    filter: ['has', 'point_count'],
     paint: {
       'circle-radius': [
-        'interpolate', ['linear'], ['get', 'count'],
+        'interpolate', ['linear'], ['get', 'point_count'],
         1, 8, 50, 18, 500, 28, 5000, 40,
       ],
       'circle-color': [
-        'interpolate', ['linear'], ['get', 'count'],
+        'interpolate', ['linear'], ['get', 'point_count'],
         1, '#FFA500', 500, '#FF4500', 5000, '#8B0000',
       ],
       'circle-opacity': 0.8,
@@ -65,15 +67,13 @@ function initLayers() {
     id: 'cluster-count',
     type: 'symbol',
     source: 'accidents-src',
-    filter: ['==', ['get', 'is_cluster'], true],
+    filter: ['has', 'point_count'],
     layout: {
-      'text-field': ['get', 'count'],
+      'text-field': ['get', 'point_count'],
       'text-font': ['Open Sans Bold'],
       'text-size': 12,
     },
-    paint: {
-      'text-color': '#fff',
-    },
+    paint: { 'text-color': '#fff' },
   })
 
   // Individual pins
@@ -81,7 +81,7 @@ function initLayers() {
     id: 'pins',
     type: 'circle',
     source: 'accidents-src',
-    filter: ['==', ['get', 'is_cluster'], false],
+    filter: ['!', ['has', 'point_count']],
     paint: {
       'circle-radius': 6,
       'circle-color': [
@@ -96,12 +96,15 @@ function initLayers() {
     },
   })
 
-  // Cluster click → zoom in
+  // Cluster click → zoom in (stop if already at max expansion)
   map.on('click', 'clusters', (e) => {
     const feature = e.features?.[0]
-    if (!feature) return
+    if (!feature || !sc) return
     const coords = (feature.geometry as any).coordinates as [number, number]
-    map!.flyTo({ center: coords, zoom: map!.getZoom() + 2 })
+    const expansionZoom = sc.getClusterExpansionZoom(feature.properties!.cluster_id)
+    if (expansionZoom > map!.getZoom()) {
+      map!.flyTo({ center: coords, zoom: expansionZoom })
+    }
   })
 
   // Pin click → popup
@@ -165,36 +168,28 @@ onMounted(() => {
 
   map.on('load', () => {
     initLayers()
-    scheduleFetch()
+    store.load()
   })
 
-  map.on('moveend', scheduleFetch)
-  map.on('zoomend', scheduleFetch)
+  map.on('moveend', updateSource)
+  map.on('zoomend', updateSource)
 })
 
 onUnmounted(() => {
-  if (debounceTimer) clearTimeout(debounceTimer)
   popup?.remove()
   map?.remove()
 })
 
-// Re-fetch when filter panel triggers a refetch
+// Re-fetch when filters change
 watch(
   () => props.refetchTrigger,
-  () => {
-    const bbox = getBbox()
-    if (bbox) store.load(bbox)
-  },
+  () => store.load(),
 )
 
-// Update source when geojson changes
+// Rebuild supercluster index when raw data arrives
 watch(
-  () => store.geojson,
-  (data) => {
-    if (!map || !data) return
-    const src = map.getSource('accidents-src') as maplibregl.GeoJSONSource | undefined
-    src?.setData(data)
-  },
+  () => store.rawGeojson,
+  () => buildCluster(),
 )
 </script>
 

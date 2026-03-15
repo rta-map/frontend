@@ -37,6 +37,15 @@ function onFilterChange() {
         @input="onFilterChange"
       />
     </div>
+    <div class="filter-group">
+      <label for="only-dead">With deaths only</label>
+      <input
+        id="only-dead"
+        v-model="store.filters.only_dead"
+        type="checkbox"
+        @change="onFilterChange"
+      />
+    </div>
     <div v-if="store.loading" class="loading-indicator">Loading…</div>
     <div v-if="store.error" class="error-indicator">{{ store.error }}</div>
   </div>
