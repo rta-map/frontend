@@ -14,10 +14,11 @@
 // Variables
 $fontFamily: "NotoSansArmenian";
 $fontSize: toRem(16);
-$mainColor: #000;
+$mainColor: #1a1a1a;
 $bgColor: #fff;
+$accentColor: #355C8C;
 $minWidth: 320;
-$maxWidthContainer: 1380;
+$maxWidthContainer: 1160;
 $containerPadding: 16;
 $containerWidth: $maxWidthContainer + $containerPadding;
 // Breakpoints

@@ -1,20 +1,13 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
+import Header from '@/components/Header.vue';
 </script>
 
 <template>
-  <RouterView />
+	<Header />
+	<main class="page">
+		<RouterView />
+	</main>
 </template>
 
-<style lang="scss">
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html, body, #app {
-  width: 100%;
-  height: 100%;
-}
-</style>
+<style lang="scss"></style>

@@ -27,14 +27,13 @@ function onRefetch() {
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .home {
   display: flex;
   flex-direction: column;
   height: 100vh;
   width: 100%;
 }
-
 .map-wrapper {
   flex: 1;
   overflow: hidden;

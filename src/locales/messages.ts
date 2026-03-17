@@ -1,42 +1,66 @@
 interface Messages {
-  menuItemAbout: string
-  mapFilterFrom: string
-  mapFilterTo: string
-  mapFilterType: string
-  mapLoading: string
-  mapPopupDate: string
-  mapPopupType: string
-  mapPopupDead: string
-  mapPopupInjured: string
-  mapPopupLocation: string
-  mapPopupPlace: string
+	menuItemMap: string
+	menuItemAbout: string
+	menuToggleButtonAria: string
+	mapFilterFrom: string
+	mapFilterTo: string
+	mapFilterType: string
+	mapLoading: string
+	mapPopupDate: string
+	mapPopupType: string
+	mapPopupDead: string
+	mapPopupInjured: string
+	mapPopupLocation: string
+	mapPopupPlace: string
+	aboutMainTitle: string
+	aboutMainText: string
+	aboutSectionTitle1: string
+	aboutSectionText1: string
+	aboutContactsTitle: string
+	aboutContactsText: string
 }
 
 export default {
-  en: {
-    menuItemAbout: 'About',
-    mapFilterFrom: 'From',
-    mapFilterTo: 'To',
-    mapFilterType: 'Type',
-    mapLoading: 'Loading…',
-    mapPopupDate: 'Date',
-    mapPopupType: 'Type',
-    mapPopupDead: 'Dead',
-    mapPopupInjured: 'Injured',
-    mapPopupLocation: 'Location',
-    mapPopupPlace: 'Place',
-  },
-  hy: {
-    menuItemAbout: 'Մեր մասին',
-    mapFilterFrom: 'Սկիզբ',
-    mapFilterTo: 'Վերջ',
-    mapFilterType: 'Տեսակ',
-    mapLoading: 'Բեռնվում է…',
-    mapPopupDate: 'Ամսաթիվ',
-    mapPopupType: 'Տեսակ',
-    mapPopupDead: 'Զոհ',
-    mapPopupInjured: 'Վիրավոր',
-    mapPopupLocation: 'Վայր',
-    mapPopupPlace: 'Վայր (ճշգրիտ)',
-  },
+	en: {
+		menuItemMap: 'Map',
+		menuItemAbout: 'About',
+		menuToggleButtonAria: "Open menu",
+		mapFilterFrom: 'From',
+		mapFilterTo: 'To',
+		mapFilterType: 'Type',
+		mapLoading: 'Loading…',
+		mapPopupDate: 'Date',
+		mapPopupType: 'Type',
+		mapPopupDead: 'Dead',
+		mapPopupInjured: 'Injured',
+		mapPopupLocation: 'Location',
+		mapPopupPlace: 'Place',
+		aboutMainTitle: "Title",
+		aboutMainText: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis earum cupiditate repellat tempora, enim explicabo magni id dicta quo tenetur illo, reprehenderit dignissimos ut, doloribus totam similique et nisi ea!",
+		aboutSectionTitle1: "Title small",
+		aboutSectionText1: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis earum cupiditate repellat tempora, enim explicabo magni id dicta quo tenetur illo, reprehenderit dignissimos ut, doloribus totam similique et nisi ea!",
+		aboutContactsTitle: "Contacts",
+		aboutContactsText: "You can contact us via:"
+	},
+	hy: {
+		menuItemMap: 'Քառտեզ',
+		menuItemAbout: 'Մեր մասին',
+		menuToggleButtonAria: "Բացել ընտրացանկը",
+		mapFilterFrom: 'Սկիզբ',
+		mapFilterTo: 'Վերջ',
+		mapFilterType: 'Տեսակ',
+		mapLoading: 'Բեռնվում է…',
+		mapPopupDate: 'Ամսաթիվ',
+		mapPopupType: 'Տեսակ',
+		mapPopupDead: 'Զոհ',
+		mapPopupInjured: 'Վիրավոր',
+		mapPopupLocation: 'Վայր',
+		mapPopupPlace: 'Վայր (ճշգրիտ)',
+		aboutMainTitle: "Վերնագիր",
+		aboutMainText: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis earum cupiditate repellat tempora, enim explicabo magni id dicta quo tenetur illo, reprehenderit dignissimos ut, doloribus totam similique et nisi ea!",
+		aboutSectionTitle1: "Վերնագիր փոքր",
+		aboutSectionText1: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis earum cupiditate repellat tempora, enim explicabo magni id dicta quo tenetur illo, reprehenderit dignissimos ut, doloribus totam similique et nisi ea!",
+		aboutContactsTitle: "Կապ",
+		aboutContactsText: "Դուք կարող եք կապ հաստատել մեզ հետ հետևյալ միջոցներով."
+	},
 } satisfies Record<string, Messages>
