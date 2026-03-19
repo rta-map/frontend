@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useAccidentsStore } from '@/stores/accidents'
 import { useI18n } from "vue-i18n"
+import { useDebounceFn } from '@vueuse/core'
 
 const { t } = useI18n()
 const store = useAccidentsStore()
@@ -10,6 +11,10 @@ const emit = defineEmits<{ refetch: [] }>()
 function onFilterChange() {
 	emit('refetch')
 }
+// debounce for search input
+const debouncedFilterChange = useDebounceFn(() => {
+	emit('refetch')
+}, 800)
 </script>
 
 <template>
@@ -27,7 +32,7 @@ function onFilterChange() {
 				<div class="filter-panel__group">
 					<label>{{ t('filterLabelType') }}</label>
 					<input v-model="store.filters.accident_type" type="text" :placeholder="t('filterPlaceholder')"
-						@input="onFilterChange" />
+						@input="debouncedFilterChange" />
 				</div>
 				<div class="filter-panel__group">
 					<label for="only-dead">{{ t('filterLabelDeath') }}</label>

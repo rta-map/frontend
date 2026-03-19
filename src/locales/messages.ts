@@ -2,10 +2,6 @@ interface Messages {
 	menuItemMap: string
 	menuItemAbout: string
 	menuToggleButtonAria: string
-	mapFilterFrom: string
-	mapFilterTo: string
-	mapFilterType: string
-	mapLoading: string
 	mapPopupDate: string
 	mapPopupType: string
 	mapPopupDead: string
@@ -31,10 +27,6 @@ export default {
 		menuItemMap: 'Map',
 		menuItemAbout: 'About',
 		menuToggleButtonAria: "Open menu",
-		mapFilterFrom: 'From',
-		mapFilterTo: 'To',
-		mapFilterType: 'Type',
-		mapLoading: 'Loading…',
 		mapPopupDate: 'Date',
 		mapPopupType: 'Type',
 		mapPopupDead: 'Dead',
@@ -58,10 +50,6 @@ export default {
 		menuItemMap: 'Քառտեզ',
 		menuItemAbout: 'Մեր մասին',
 		menuToggleButtonAria: "Բացել ընտրացանկը",
-		mapFilterFrom: 'Սկիզբ',
-		mapFilterTo: 'Վերջ',
-		mapFilterType: 'Տեսակ',
-		mapLoading: 'Բեռնվում է…',
 		mapPopupDate: 'Ամսաթիվ',
 		mapPopupType: 'Տեսակ',
 		mapPopupDead: 'Զոհ',
@@ -78,7 +66,7 @@ export default {
 		filterLabelTo: 'Մինչև',
 		filterLabelType: 'Տեսակ',
 		filterLabelDeath: 'Միայն մահվան ելքով',
-		filterIndicatorLoading: 'Բեռնում…',
+		filterIndicatorLoading: 'Բեռնվում է…',
 		filterPlaceholder: "օրինակ՝ բախում",
 	},
 } satisfies Record<string, Messages>

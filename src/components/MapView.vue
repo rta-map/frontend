@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, watch } from 'vue'
 import { ref } from 'vue'
+import { useI18n } from "vue-i18n"
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import Supercluster from 'supercluster'
 import { useAccidentsStore } from '@/stores/accidents'
 
 const props = defineProps<{ refetchTrigger?: number }>()
-
+const { t, locale } = useI18n()
+const activeFeatureProps = ref<any>(null)
 const mapContainer = ref<HTMLDivElement | null>(null)
 const store = useAccidentsStore()
 let map: maplibregl.Map | null = null
@@ -31,6 +33,22 @@ function updateSource() {
 	)
 	const src = map.getSource('accidents-src') as maplibregl.GeoJSONSource | undefined
 	src?.setData({ type: 'FeatureCollection', features: clusters })
+}
+
+function getPopupHTML(p: any) {
+	const location = [p.city, p.district, p.street].filter(Boolean).join(', ') || '—'
+	const placeRow = p.place ? `<div class="popup-row"><span>${t('mapPopupPlace')}</span><strong>${p.place}</strong></div>` : ''
+
+	return `
+      <div class="accident-popup">
+        <div class="popup-row"><span>${t('mapPopupDate')}</span><strong>${p.date ?? '—'}</strong></div>
+        <div class="popup-row"><span>${t('mapPopupType')}</span><strong>${p.accident_type ?? '—'}</strong></div>
+        <div class="popup-row"><span>${t('mapPopupDead')}</span><strong style="color:#CC0000">${p.dead}</strong></div>
+        <div class="popup-row"><span>${t('mapPopupInjured')}</span><strong style="color:#FF8C00">${p.injured}</strong></div>
+        <div class="popup-row"><span>${t('mapPopupLocation')}</span><strong>${location}</strong></div>
+        ${placeRow}
+      </div>
+    `
 }
 
 function initLayers() {
@@ -111,27 +129,21 @@ function initLayers() {
 	map.on('click', 'pins', (e) => {
 		const feature = e.features?.[0]
 		if (!feature) return
+
 		const p = feature.properties as any
+		activeFeatureProps.value = p
 		const coords = (feature.geometry as any).coordinates as [number, number]
 
-		const location = [p.city, p.district, p.street].filter(Boolean).join(', ') || '—'
-		const placeRow = p.place ? `<div class="popup-row"><span>Place</span><strong>${p.place}</strong></div>` : ''
-		const html = `
-      <div class="accident-popup">
-        <div class="popup-row"><span>Date</span><strong>${p.date ?? '—'}</strong></div>
-        <div class="popup-row"><span>Type</span><strong>${p.accident_type ?? '—'}</strong></div>
-        <div class="popup-row"><span>Dead</span><strong style="color:#CC0000">${p.dead}</strong></div>
-        <div class="popup-row"><span>Injured</span><strong style="color:#FF8C00">${p.injured}</strong></div>
-        <div class="popup-row"><span>Location</span><strong>${location}</strong></div>
-        ${placeRow}
-      </div>
-    `
-
 		if (popup) popup.remove()
+
 		popup = new maplibregl.Popup({ closeButton: true, maxWidth: '260px' })
 			.setLngLat(coords)
-			.setHTML(html)
+			.setHTML(getPopupHTML(p))
 			.addTo(map!)
+
+		popup.on('close', () => {
+			activeFeatureProps.value = null
+		})
 	})
 
 	// Cursor changes
@@ -180,6 +192,12 @@ onUnmounted(() => {
 	map?.remove()
 })
 
+// Change popup language
+watch(locale, () => {
+   if (popup && popup.isOpen() && activeFeatureProps.value) {
+      popup.setHTML(getPopupHTML(activeFeatureProps.value))
+   }
+})
 // Re-fetch when filters change
 watch(
 	() => props.refetchTrigger,
