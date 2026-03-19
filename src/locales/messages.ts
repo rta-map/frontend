@@ -18,6 +18,12 @@ interface Messages {
 	aboutSectionText1: string
 	aboutContactsTitle: string
 	aboutContactsText: string
+	filterLabelFrom: string
+	filterLabelTo: string
+	filterLabelType: string
+	filterLabelDeath: string
+	filterIndicatorLoading: string
+	filterPlaceholder: string
 }
 
 export default {
@@ -40,7 +46,13 @@ export default {
 		aboutSectionTitle1: "Title small",
 		aboutSectionText1: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis earum cupiditate repellat tempora, enim explicabo magni id dicta quo tenetur illo, reprehenderit dignissimos ut, doloribus totam similique et nisi ea!",
 		aboutContactsTitle: "Contacts",
-		aboutContactsText: "You can contact us via:"
+		aboutContactsText: "You can contact us via:",
+		filterLabelFrom: 'From',
+		filterLabelTo: 'To',
+		filterLabelType: 'Type',
+		filterLabelDeath: 'With deaths only',
+		filterIndicatorLoading: 'Loading…',
+		filterPlaceholder: 'e.g. collision',
 	},
 	hy: {
 		menuItemMap: 'Քառտեզ',
@@ -61,6 +73,12 @@ export default {
 		aboutSectionTitle1: "Վերնագիր փոքր",
 		aboutSectionText1: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis earum cupiditate repellat tempora, enim explicabo magni id dicta quo tenetur illo, reprehenderit dignissimos ut, doloribus totam similique et nisi ea!",
 		aboutContactsTitle: "Կապ",
-		aboutContactsText: "Դուք կարող եք կապ հաստատել մեզ հետ հետևյալ միջոցներով."
+		aboutContactsText: "Դուք կարող եք կապ հաստատել մեզ հետ հետևյալ միջոցներով.",
+		filterLabelFrom: 'Սկսած',
+		filterLabelTo: 'Մինչև',
+		filterLabelType: 'Տեսակ',
+		filterLabelDeath: 'Միայն մահվան ելքով',
+		filterIndicatorLoading: 'Բեռնում…',
+		filterPlaceholder: "օրինակ՝ բախում",
 	},
 } satisfies Record<string, Messages>

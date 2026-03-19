@@ -31,7 +31,7 @@ function onRefetch() {
 .home {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: calc(100vh - 60px);
   width: 100%;
 }
 .map-wrapper {

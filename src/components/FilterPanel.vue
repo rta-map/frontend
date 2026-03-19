@@ -1,98 +1,99 @@
 <script setup lang="ts">
 import { useAccidentsStore } from '@/stores/accidents'
+import { useI18n } from "vue-i18n"
 
+const { t } = useI18n()
 const store = useAccidentsStore()
 
 const emit = defineEmits<{ refetch: [] }>()
 
 function onFilterChange() {
-  emit('refetch')
+	emit('refetch')
 }
 </script>
 
 <template>
-  <div class="filter-panel">
-    <div class="filter-group">
-      <label>From</label>
-      <input
-        v-model="store.filters.date_from"
-        type="date"
-        @change="onFilterChange"
-      />
-    </div>
-    <div class="filter-group">
-      <label>To</label>
-      <input
-        v-model="store.filters.date_to"
-        type="date"
-        @change="onFilterChange"
-      />
-    </div>
-    <div class="filter-group">
-      <label>Type</label>
-      <input
-        v-model="store.filters.accident_type"
-        type="text"
-        placeholder="e.g. collision"
-        @input="onFilterChange"
-      />
-    </div>
-    <div class="filter-group">
-      <label for="only-dead">With deaths only</label>
-      <input
-        id="only-dead"
-        v-model="store.filters.only_dead"
-        type="checkbox"
-        @change="onFilterChange"
-      />
-    </div>
-    <div v-if="store.loading" class="loading-indicator">Loading…</div>
-    <div v-if="store.error" class="error-indicator">{{ store.error }}</div>
-  </div>
+	<div class="filter-panel">
+		<div class="filter-panel__container">
+			<div class="filter-panel__body">
+				<div class="filter-panel__group">
+					<label>{{ t('filterLabelFrom') }}</label>
+					<input v-model="store.filters.date_from" type="date" @change="onFilterChange" />
+				</div>
+				<div class="filter-panel__group">
+					<label>{{ t('filterLabelTo') }}</label>
+					<input v-model="store.filters.date_to" type="date" @change="onFilterChange" />
+				</div>
+				<div class="filter-panel__group">
+					<label>{{ t('filterLabelType') }}</label>
+					<input v-model="store.filters.accident_type" type="text" :placeholder="t('filterPlaceholder')"
+						@input="onFilterChange" />
+				</div>
+				<div class="filter-panel__group">
+					<label for="only-dead">{{ t('filterLabelDeath') }}</label>
+					<input id="only-dead" v-model="store.filters.only_dead" type="checkbox" @change="onFilterChange" />
+				</div>
+				<div v-if="store.loading" class="filter-panel__loading-indicator">{{ t('filterIndicatorLoading') }}</div>
+				<div v-if="store.error" class="filter-panel__error-indicator">{{ store.error }}</div>
+			</div>
+		</div>
+	</div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .filter-panel {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 16px;
-  background: rgba(255, 255, 255, 0.95);
-  border-bottom: 1px solid #ddd;
-  font-size: 13px;
-}
+	padding: toRem(12) 0;
+	background: rgba(255, 255, 255, 0.95);
+	border-bottom: 1px solid #ddd;
+	font-size: toRem(14);
 
-.filter-group {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
+	@media (max-width:$mobile) {
+		font-size: toRem(12);
+	}
 
-.filter-group label {
-  font-weight: 600;
-  color: #444;
-  white-space: nowrap;
-}
+	&__body {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: toRem(16);
+		row-gap: toRem(8);
+	}
 
-.filter-group input {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 4px 8px;
-  font-size: 13px;
-  outline: none;
-}
+	&__group {
+		display: flex;
+		align-items: center;
+		gap: toRem(8);
 
-.filter-group input:focus {
-  border-color: #4a90d9;
-}
+		& label {
+			font-weight: 500;
+			white-space: nowrap;
+		}
 
-.loading-indicator {
-  color: #888;
-  font-style: italic;
-}
+		& input {
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			padding: 4px 8px;
+			outline: none;
+			font-size: toRem(14);
+			transition: all 0.3s;
 
-.error-indicator {
-  color: #c00;
+			@media (max-width:$mobile) {
+				font-size: toRem(12);
+			}
+
+			&:focus {
+				border-color: #4a90d9;
+			}
+		}
+	}
+
+	&__loading-indicator {
+		color: #999999;
+		font-style: italic;
+	}
+
+	&__error-indicator {
+		color: #c00;
+	}
 }
 </style>

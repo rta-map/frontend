@@ -62,7 +62,7 @@ watch(route, () => {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	min-height: toRem(70);
+	min-height: toRem(60);
 
 	&__logo {
 		img {
@@ -82,9 +82,9 @@ watch(route, () => {
 			position: fixed;
 			z-index: 49;
 			width: 100%;
-			height: calc(100% - 70px);
+			height: calc(100% - 60px);
 			right: -100%;
-			top: 70px;
+			top: 60px;
 			overflow-y: auto;
 			overflow-x: hidden;
 			padding: toRem(24) toRem(16);
