@@ -12,14 +12,44 @@ const { t, locale } = useI18n()
 const activeFeatureProps = ref<any>(null)
 const mapContainer = ref<HTMLDivElement | null>(null)
 const store = useAccidentsStore()
+
 let map: maplibregl.Map | null = null
 let popup: maplibregl.Popup | null = null
 let sc: Supercluster | null = null
 
+function applyJitter(features: any[]) {
+	const seen = new Set<string>()
+
+	const JITTER_SPREAD = 0.00015
+
+	return features.map((feature: any) => {
+		const [lng, lat] = feature.geometry.coordinates
+		const key = `${lng},${lat}`
+		const clonedFeature = {
+			...feature,
+			geometry: {
+				...feature.geometry,
+				coordinates: [lng, lat]
+			}
+		}
+
+		if (seen.has(key)) {
+			const jitterLng = (Math.random() - 0.5) * JITTER_SPREAD
+			const jitterLat = (Math.random() - 0.5) * JITTER_SPREAD
+			clonedFeature.geometry.coordinates = [lng + jitterLng, lat + jitterLat]
+		} else {
+			seen.add(key)
+		}
+
+		return clonedFeature
+	})
+}
+
 function buildCluster() {
 	if (!store.rawGeojson || !map) return
-	sc = new Supercluster({ radius: 60, maxZoom: 20 })
-	sc.load(store.rawGeojson.features)
+	sc = new Supercluster({ radius: 60, maxZoom: 15 })
+	const jitteredFeatures = applyJitter(store.rawGeojson.features)
+	sc.load(jitteredFeatures)
 	updateSource()
 }
 
@@ -229,6 +259,7 @@ watch(
 	height: toRem(20);
 	line-height: 1;
 }
+
 .maplibregl-ctrl-attrib-inner {
 	font-size: toRem(8) !important;
 }
@@ -236,6 +267,7 @@ watch(
 .map-container {
 	width: 100%;
 	height: 100%;
+	font-family: $fontFamily, Arial, Helvetica, sans-serif;
 }
 
 .accident-popup {
