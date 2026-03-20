@@ -194,9 +194,9 @@ onUnmounted(() => {
 
 // Change popup language
 watch(locale, () => {
-   if (popup && popup.isOpen() && activeFeatureProps.value) {
-      popup.setHTML(getPopupHTML(activeFeatureProps.value))
-   }
+	if (popup && popup.isOpen() && activeFeatureProps.value) {
+		popup.setHTML(getPopupHTML(activeFeatureProps.value))
+	}
 })
 // Re-fetch when filters change
 watch(
@@ -215,20 +215,22 @@ watch(
 	<div ref="mapContainer" class="map-container" />
 </template>
 
-<style>
+<style lang="scss">
 .maplibregl-popup-content {
-	padding: 24px 12px;
+	padding: toRem(24) toRem(12);
+	border-radius: 4px;
+	box-shadow: none;
+	border: 1px solid $greyColor;
 }
 
 .maplibregl-popup-close-button {
-	font-size: 20px;
-	width: 20px;
-	height: 20px;
+	font-size: toRem(20);
+	width: toRem(20);
+	height: toRem(20);
 	line-height: 1;
 }
-
 .maplibregl-ctrl-attrib-inner {
-	font-size: 8px !important;
+	font-size: toRem(8) !important;
 }
 
 .map-container {
@@ -237,17 +239,22 @@ watch(
 }
 
 .accident-popup {
-	font-size: 12px;
+	font-size: toRem(12);
 	line-height: 1.6;
 }
 
 .popup-row {
 	display: flex;
 	justify-content: space-between;
-	gap: 12px;
+	gap: toRem(16);
+	margin-bottom: toRem(4);
+}
+
+.popup-row strong {
+	text-align: right;
 }
 
 .popup-row span {
-	color: #666;
+	color: $greyDarkColor;
 }
 </style>

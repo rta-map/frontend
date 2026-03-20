@@ -35,7 +35,7 @@ const debouncedFilterChange = useDebounceFn(() => {
 						@input="debouncedFilterChange" />
 				</div>
 				<div class="filter-panel__group">
-					<label for="only-dead">{{ t('filterLabelDeath') }}</label>
+					<label class="filter-panel__group-label--checkbox" for="only-dead">{{ t('filterLabelDeath') }}</label>
 					<input id="only-dead" v-model="store.filters.only_dead" type="checkbox" @change="onFilterChange" />
 				</div>
 				<div v-if="store.loading" class="filter-panel__loading-indicator">{{ t('filterIndicatorLoading') }}</div>
@@ -48,8 +48,8 @@ const debouncedFilterChange = useDebounceFn(() => {
 <style scoped lang="scss">
 .filter-panel {
 	padding: toRem(12) 0;
-	background: rgba(255, 255, 255, 0.95);
-	border-bottom: 1px solid #ddd;
+	background: $bgColor;
+	border-bottom: 1px solid $greyColor;
 	font-size: toRem(14);
 
 	@media (max-width:$mobile) {
@@ -60,7 +60,7 @@ const debouncedFilterChange = useDebounceFn(() => {
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
-		gap: toRem(16);
+		gap: toRem(32);
 		row-gap: toRem(8);
 	}
 
@@ -74,20 +74,31 @@ const debouncedFilterChange = useDebounceFn(() => {
 			white-space: nowrap;
 		}
 
+		&-label--checkbox {
+			cursor: pointer;
+		}
+
 		& input {
-			border: 1px solid #ccc;
+			border: 1px solid $greyColor;
 			border-radius: 4px;
 			padding: 4px 8px;
 			outline: none;
 			font-size: toRem(14);
 			transition: all 0.3s;
+			height: toRem(28);
 
 			@media (max-width:$mobile) {
 				font-size: toRem(12);
 			}
 
 			&:focus {
-				border-color: #4a90d9;
+				border-color: $greyDarkColor;
+			}
+
+			@media (any-hover: hover) {
+				&:hover {
+					border-color: $greyDarkColor;
+				}
 			}
 		}
 	}

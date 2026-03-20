@@ -38,7 +38,7 @@ const { t } = useI18n()
 	padding: toRem(48) 0;
 
 	&__container {
-		max-width: toRem(800);
+		max-width: toRem(600);
 	}
 
 	&__title {
@@ -59,6 +59,7 @@ const { t } = useI18n()
 	&__text {
 		font-size: toRem(20);
 		line-height: 1.6;
+		text-align: justify;
 
 		@media (max-width:$mobileSmall) {
 			font-size: toRem(18);
@@ -70,7 +71,7 @@ const { t } = useI18n()
 	padding-bottom: toRem(40);
 
 	&__container {
-		max-width: toRem(800);
+		max-width: toRem(600);
 	}
 
 	&__title {
@@ -91,6 +92,7 @@ const { t } = useI18n()
 	&__text {
 		font-size: toRem(16);
 		line-height: 1.5;
+		text-align: justify;
 	}
 
 	&__contacts {
@@ -104,17 +106,14 @@ const { t } = useI18n()
 	&__contacts-item {
 		display: inline-flex;
 		align-items: center;
-		color: #004D99;
+		color: $linkColor;
 		transition: all 0.3s;
+		text-decoration: underline;
 
 		@media (any-hover: hover) {
 			&:hover {
-				color: #000040
+				text-decoration: none;
 			}
-		}
-
-		&:visited {
-			color: #800080
 		}
 
 		img {

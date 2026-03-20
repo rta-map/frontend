@@ -21,7 +21,7 @@ watch(route, () => {
 	<header class="header">
 		<div class="header__container">
 			<div class="header__menu menu">
-				<RouterLink to="/" class="menu__logo">Logo</RouterLink>
+				<RouterLink to="/" class="menu__logo">rta map</RouterLink>
 				<button type="button" :title="t('menuToggleButtonAria')" :aria-label="t('menuToggleButtonAria')"
 					@click="menuToggle" class="icon-menu">
 					<span></span>
@@ -53,7 +53,7 @@ watch(route, () => {
 .header {
 	width: 100%;
 	position: relative;
-	background-color: #F5F5F5;
+	background-color: $bgColor;
 
 	&__container {}
 }
@@ -63,6 +63,7 @@ watch(route, () => {
 	align-items: center;
 	justify-content: space-between;
 	min-height: toRem(60);
+	border-bottom: 1px solid $greyColor;
 
 	&__logo {
 		img {
@@ -72,6 +73,7 @@ watch(route, () => {
 
 		font-size: toRem(24);
 		margin-right: toRem(16);
+		font-weight: 600;
 	}
 
 	&__body {
@@ -89,7 +91,7 @@ watch(route, () => {
 			overflow-x: hidden;
 			padding: toRem(24) toRem(16);
 			transition: right 0.3s;
-			background-color: #f5f5f5;
+			background-color: $bgColor;
 			flex-direction: column;
 			justify-content: center;
 
@@ -162,7 +164,7 @@ watch(route, () => {
 		cursor: pointer;
 		padding: 0 toRem(8);
 		font-size: toRem(20);
-		color: #999999;
+		color: #999;
 		transition: all 0.3s;
 
 		&.active {
@@ -170,7 +172,7 @@ watch(route, () => {
 		}
 
 		&:not(:last-child) {
-			border-right: 1px solid #999999;
+			border-right: 1px solid $greyColor;
 		}
 
 		@media (any-hover: hover) {
