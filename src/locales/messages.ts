@@ -1,3 +1,5 @@
+import { ACCIDENT_TYPE_MAP } from "@/services/utils"
+
 interface Messages {
 	menuItemMap: string
 	menuItemAbout: string
@@ -17,9 +19,12 @@ interface Messages {
 	filterLabelFrom: string
 	filterLabelTo: string
 	filterLabelType: string
+	allTypes: string
+	accidentTypes: object
 	filterLabelDeath: string
 	filterIndicatorLoading: string
 	filterPlaceholder: string
+	clearFilters: string
 }
 
 export default {
@@ -42,9 +47,23 @@ export default {
 		filterLabelFrom: 'From',
 		filterLabelTo: 'To',
 		filterLabelType: 'Type',
+		allTypes: "All types",
+		accidentTypes: {
+			other: "Other",
+			collision: "Collision",
+			animal: "Animal involved",
+			pedestrian: "Pedestrian hit",
+			bicycle: "Bicycle accident",
+			tow_vehicle: "Animal-drawn vehicle",
+			traffic_jam: "Obstacle hit",
+			rollover: "Rollover",
+			parking: "Parked vehicle hit",
+			passenger: "Passenger fall",
+		},
 		filterLabelDeath: 'With deaths only',
 		filterIndicatorLoading: 'Loading…',
 		filterPlaceholder: 'e.g. collision',
+		clearFilters: "Clear",
 	},
 	hy: {
 		menuItemMap: 'Քառտեզ',
@@ -65,8 +84,11 @@ export default {
 		filterLabelFrom: 'Սկսած',
 		filterLabelTo: 'Մինչև',
 		filterLabelType: 'Տեսակ',
+		allTypes: "Բոլորը",
+		accidentTypes: ACCIDENT_TYPE_MAP,
 		filterLabelDeath: 'Միայն մահվան ելքով',
 		filterIndicatorLoading: 'Բեռնվում է…',
 		filterPlaceholder: "օրինակ՝ բախում",
+		clearFilters: "Մաքրել",
 	},
 } satisfies Record<string, Messages>

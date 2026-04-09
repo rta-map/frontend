@@ -9,7 +9,11 @@ export interface AccidentParams {
 
 export async function fetchAccidents(p: AccidentParams) {
   const url = new URL(`${BASE}/api/accidents`)
-  Object.entries(p).forEach(([k, v]) => v != null && url.searchParams.set(k, String(v)))
+  Object.entries(p).forEach(([k, v]) => {
+	if (v !== null && v !== undefined && v !== '') {
+	  url.searchParams.set(k, String(v))	
+	}
+  })
   const res = await fetch(url)
   if (!res.ok) throw new Error(await res.text())
   return res.json()

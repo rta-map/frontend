@@ -53,3 +53,18 @@ export function menuClose(): void {
 	bodyUnlock();
 	document.documentElement.classList.remove("menu-open");
 }
+
+export const ACCIDENT_TYPE_MAP = {
+	other: "Այլ պատահար",
+	collision: "Բախում",
+	animal: "Կենդանու վրաերթ",
+	pedestrian: "Հետիոտնի վրաերթ",
+	bicycle: "Հեծանվորդի վրաերթ",
+	tow_vehicle: "Լծկան տրանսպորտային միջոցի վրաերթ",
+	traffic_jam: "Խոչընդոտի վրաերթ",
+	rollover: "Շրջում",
+	parking: "Կանգնած տրանսպորտային միջոցի վրաերթ",
+	passenger: "Ուղևորի վայր ընկնել",
+} as const
+
+export type AccidentTypeKey = keyof typeof ACCIDENT_TYPE_MAP
